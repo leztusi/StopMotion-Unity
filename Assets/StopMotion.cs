@@ -6,7 +6,9 @@ namespace GK {
 	public class StopMotion : MonoBehaviour {
 
 		public Transform RootBone;
-		public int StoppedFrameCount = 5;
+		public int FPS = 12;
+		[HideInInspector] public int StoppedFrameCount = 5;
+		[HideInInspector] public int TargetFrameRate;
 
 		int recordedFrame = -1;
 
@@ -31,6 +33,9 @@ namespace GK {
 		}
 
 		void LateUpdate() {
+			TargetFrameRate = Application.targetFrameRate;
+			StoppedFrameCount = Mathf.RoundToInt(TargetFrameRate / FPS) - 1;
+			
 			if(transforms == null) {
 				transforms = new List<Transform>(RootBone.GetComponentsInChildren<Transform>());
 			} 
